@@ -11,7 +11,7 @@ export const AllTasks: React.FC = () => {
 			AllTasks
 			<div>
 				{tasks?.map(t =>
-					<div>
+					<div key={t.id}>
 						{t.todo} - {t.done ? 'done' : 'to do'}
 					</div>)}
 			</div>
