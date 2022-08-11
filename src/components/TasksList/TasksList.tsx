@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { todoToggled, selectAllTodos, selectFilter, selectCompletedTodos, selectActiveTodos } from '../../redux/todosSlice';
+import { todoToggled, selectAllTodos, selectFilter, selectCompletedTodos, selectActiveTodos, todosFetched } from '../../redux/todosSlice';
 
 export const TasksList: React.FC = () => {
 	const allTasks = useSelector(selectAllTodos)
@@ -14,7 +14,9 @@ export const TasksList: React.FC = () => {
 	const handleToggleTask = (id: string) => {
 		dispatch(todoToggled(id))
 	}
-
+	useEffect(() => {
+		dispatch(todosFetched())
+	}, [])
 	useEffect(() => {
 		switch (filter) {
 			case 'all':
