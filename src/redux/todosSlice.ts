@@ -1,41 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from 'uuid';
 import { AppStateType } from "./store";
 
 interface TodosState {
-	todos: Array<TodoType> | null
+	todos: Array<TodoType>
 }
 
-type TodoType = {
+export type TodoType = {
 	id: string,
 	todo: string,
-	done: boolean
+	completed: boolean
 }
 
 const initialState: TodosState = {
-	todos: [
-		{ id: uuidv4(), todo: 'Pet project', done: false },
-		{ id: uuidv4(), todo: 'Awesome code', done: true },
-		{ id: uuidv4(), todo: 'Tests', done: false }
-	]
+	todos: [{ id: '1', todo: 'some', completed: true }]
 }
 
 export const todosSlice = createSlice({
 	name: 'todos',
 	initialState,
 	reducers: {
-		addTodo: (state, action: PayloadAction<string>) => {
-			state.todos?.push({ id: uuidv4(), todo: action.payload, done: false })
+		addTodo: (state, action: PayloadAction<TodoType>) => {
+			state.todos.push(action.payload)
 		},
 		changeTodoStatus: (state, action: PayloadAction<string>) => {
-			const status = state.todos?.find(v => v.id === action.payload)?.done
-			const todo = state.todos?.find(v => v.id === action.payload)
-			if (status !== undefined && todo) {
-				todo.done = !status
+			const todo = state.todos.find(v => v.id === action.payload)
+			if (todo) {
+				todo.completed = !todo.completed
 			}
 		},
 		removeCompletedTodos: state => {
-			state.todos?.filter(v => v.done)
+			state.todos = state.todos.filter(v => !v.completed)
 		}
 	}
 })
