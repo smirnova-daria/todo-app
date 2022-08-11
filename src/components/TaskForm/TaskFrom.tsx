@@ -1,6 +1,6 @@
 import React, { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addTodo, TodoType } from '../../redux/todosSlice';
+import { todoAdded, TodoType } from '../../redux/todosSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 export const TaskForm: React.FC = () => {
@@ -14,7 +14,7 @@ export const TaskForm: React.FC = () => {
 			todo: todoText,
 			completed: false
 		}
-		dispatch(addTodo(newTodo))
+		dispatch(todoAdded(newTodo))
 		setTodoText('')
 	}
 

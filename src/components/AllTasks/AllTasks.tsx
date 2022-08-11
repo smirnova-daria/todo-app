@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { changeTodoStatus, selectTodos } from '../../redux/todosSlice';
+import { todoToggled, selectTodos } from '../../redux/todosSlice';
 
 export const AllTasks: React.FC = () => {
 	const tasks = useSelector(selectTodos)
 	const dispatch = useDispatch()
 
 	const handleToggleTask = (id: string) => {
-		dispatch(changeTodoStatus(id))
+		dispatch(todoToggled(id))
 	}
 
 	return (

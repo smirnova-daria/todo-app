@@ -19,22 +19,22 @@ export const todosSlice = createSlice({
 	name: 'todos',
 	initialState,
 	reducers: {
-		addTodo: (state, action: PayloadAction<TodoType>) => {
+		todoAdded: (state, action: PayloadAction<TodoType>) => {
 			state.todos.push(action.payload)
 		},
-		changeTodoStatus: (state, action: PayloadAction<string>) => {
+		todoToggled: (state, action: PayloadAction<string>) => {
 			const todo = state.todos.find(v => v.id === action.payload)
 			if (todo) {
 				todo.completed = !todo.completed
 			}
 		},
-		removeCompletedTodos: state => {
+		completedTodosCleared: state => {
 			state.todos = state.todos.filter(v => !v.completed)
 		}
 	}
 })
 
-export const { addTodo, changeTodoStatus, removeCompletedTodos } = todosSlice.actions
+export const { todoAdded, todoToggled, completedTodosCleared } = todosSlice.actions
 
 export const selectTodos = (state: AppStateType) => state.todos.todos
 
