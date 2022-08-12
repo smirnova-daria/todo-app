@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/toolkit";
 import { todosApi } from "../api";
 import { AppStateType } from "./store";
 
@@ -26,30 +26,44 @@ export const todosSlice = createSlice({
 	reducers: {
 		todoAdded: (state, action: PayloadAction<TodoType>) => {
 			state.todos.push(action.payload)
-			todosApi.setTodos(state.todos)
 		},
 		todoToggled: (state, action: PayloadAction<string>) => {
 			const todo = state.todos.find(v => v.id === action.payload)
 			if (todo) {
 				todo.completed = !todo.completed
 			}
-			todosApi.setTodos(state.todos)
 		},
 		completedTodosCleared: state => {
 			state.todos = state.todos.filter(v => !v.completed)
-			todosApi.setTodos(state.todos)
 		},
 		filterChanged: (state, action: PayloadAction<FilterType>) => {
 			state.filter = action.payload
 		},
-		todosFetched: (state) => {
-			state.todos = todosApi.getTodos()
-		}
-	},
+		todosSet: (state, action: PayloadAction<Array<TodoType>>) => {
+			state.todos = action.payload
+		},
 
+	},
 })
 
-export const { todoAdded, todoToggled, completedTodosCleared, filterChanged, todosFetched } = todosSlice.actions
+export const getTodos = (): ThunkAction<void, AppStateType, unknown, AnyAction> => (dispatch) => {
+	const response = todosApi.getTodos()
+	dispatch(todosSlice.actions.todosSet(response))
+}
+export const addTodo = (todo: TodoType): ThunkAction<void, AppStateType, unknown, AnyAction> => (dispatch, getState) => {
+	dispatch(todosSlice.actions.todoAdded(todo))
+	todosApi.setTodos(getState().todos.todos)
+}
+export const toggleTodo = (id: string): ThunkAction<void, AppStateType, unknown, AnyAction> => (dispatch, getState) => {
+	dispatch(todosSlice.actions.todoToggled(id))
+	todosApi.setTodos(getState().todos.todos)
+}
+export const clearCompletedTodos = (): ThunkAction<void, AppStateType, unknown, AnyAction> => (dispatch, getState) => {
+	dispatch(todosSlice.actions.completedTodosCleared())
+	todosApi.setTodos(getState().todos.todos)
+}
+
+export const { filterChanged } = todosSlice.actions
 
 export const selectAllTodos = (state: AppStateType) => state.todos.todos
 export const selectCompletedTodos = (state: AppStateType) => state.todos.todos.filter(todo => todo.completed)

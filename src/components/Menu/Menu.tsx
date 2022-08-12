@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { completedTodosCleared, filterChanged, FilterType } from '../../redux/todosSlice';
+import { clearCompletedTodos, filterChanged, FilterType } from '../../redux/todosSlice';
 
 export const Menu: React.FC = () => {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch<any>()
 
 	const handleClear = () => {
-		dispatch(completedTodosCleared())
+		dispatch(clearCompletedTodos())
 	}
 
 	const handleFilter = (filter: FilterType) => {

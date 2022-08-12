@@ -1,11 +1,11 @@
 import React, { FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { todoAdded, TodoType } from '../../redux/todosSlice';
+import { addTodo, TodoType } from '../../redux/todosSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 export const TaskForm: React.FC = () => {
 	const [todoText, setTodoText] = useState('')
-	const dispatch = useDispatch()
+	const dispatch = useDispatch<any>()
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -14,7 +14,7 @@ export const TaskForm: React.FC = () => {
 			todo: todoText,
 			completed: false
 		}
-		dispatch(todoAdded(newTodo))
+		dispatch(addTodo(newTodo))
 		setTodoText('')
 	}
 
