@@ -1,7 +1,9 @@
+import { Checkbox, FormControlLabel } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { selectAllTodos, selectFilter, selectCompletedTodos, selectActiveTodos, getTodos, toggleTodo } from '../../redux/todosSlice';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export const TasksList: React.FC = () => {
 	const allTasks = useSelector(selectAllTodos)
@@ -36,8 +38,16 @@ export const TasksList: React.FC = () => {
 			<h3>{filter} tasks</h3>
 			<div>
 				{tasks.map(t =>
-					<div key={t.id} onClick={() => { handleToggleTask(t.id) }}>
-						{t.todo} - {t.completed ? 'done' : 'to do'}
+					<div key={t.id} >
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={t.completed} onClick={() => { handleToggleTask(t.id) }}
+									color="success"
+									icon={<CheckCircleOutlineIcon />}
+									checkedIcon={<CheckCircleOutlineIcon />}
+								/>}
+							label={t.todo} />
 					</div>)}
 			</div>
 		</div>
