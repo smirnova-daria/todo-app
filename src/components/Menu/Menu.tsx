@@ -1,10 +1,12 @@
 import { Button, Divider, Stack } from '@mui/material';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { clearCompletedTodos, filterChanged, FilterType } from '../../redux/todosSlice';
+import { clearCompletedTodos, filterChanged, FilterType, selectFilter } from '../../redux/todosSlice';
 
 export const Menu: React.FC = () => {
 	const dispatch = useDispatch<any>()
+	const selectedFilter = useSelector(selectFilter)
 
 	const handleClear = () => {
 		dispatch(clearCompletedTodos())
@@ -40,9 +42,10 @@ export const Menu: React.FC = () => {
 					if (btn.filter) {
 						return <Button
 							key={btn.id}
-							variant='outlined'
+							variant={selectedFilter === btn.filter ? "outlined" : "text"}
 							onClick={() => { handleFilter(btn.filter as FilterType) }}
 							size='small'
+							color={selectedFilter === btn.filter ? "warning" : "inherit"}
 						>
 							{btn.text}
 						</Button>
