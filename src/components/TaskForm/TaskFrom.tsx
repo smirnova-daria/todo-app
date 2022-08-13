@@ -33,6 +33,7 @@ export const TaskForm: React.FC = () => {
 				<TextField
 					label="Что нужно сделать?"
 					variant="outlined"
+					color="warning"
 					onChange={(e) => setTodoText(e.target.value)} value={todoText}
 					sx={{ width: '100%' }}
 				/>
@@ -42,6 +43,7 @@ export const TaskForm: React.FC = () => {
 					color="default"
 					aria-label="add"
 					sx={{ position: 'absolute', right: 5, top: 'calc(50% - 20px)' }}
+					disabled={!todoText}
 				>
 					<KeyboardDoubleArrowRightIcon />
 				</IconButton>

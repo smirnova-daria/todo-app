@@ -1,9 +1,10 @@
 import React from 'react';
+import s from './Header.module.css'
 
 export const Header: React.FC = () => {
 	return (
-		<header>
-			<h1>TODOS</h1>
+		<header className={s.header}>
+			<h1 className={s.title}>todos</h1>
 		</header>
 	)
 }
