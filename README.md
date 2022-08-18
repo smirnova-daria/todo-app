@@ -7,3 +7,4 @@
 - Redux Toolkit
 - TypeScript
 - Material UI
+- Покрытие тестами (jest, react testing library)
