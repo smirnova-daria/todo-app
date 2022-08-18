@@ -1,10 +1,11 @@
-import { Checkbox, FormControlLabel, List, ListItem } from '@mui/material';
+import { List } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { selectAllTodos, selectFilter, selectCompletedTodos, selectActiveTodos, getTodos, toggleTodo } from '../../redux/todosSlice';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
 import s from './TasksList.module.css'
+import { TaskItem } from './TaskItem';
 
 export const TasksList: React.FC = () => {
 	const allTasks = useSelector(selectAllTodos)
@@ -17,9 +18,11 @@ export const TasksList: React.FC = () => {
 	const handleToggleTask = (id: string) => {
 		dispatch(toggleTodo(id))
 	}
+
 	useEffect(() => {
 		dispatch(getTodos())
-	}, [])
+	}, [dispatch])
+
 	useEffect(() => {
 		switch (filter) {
 			case 'all':
@@ -38,20 +41,7 @@ export const TasksList: React.FC = () => {
 		<section className={s.section}>
 			<h3 className={s.title}>{filter} tasks</h3>
 			<List>
-				{tasks.map(t =>
-					<ListItem key={t.id} sx={{ padding: '0 15px' }}>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={t.completed} onClick={() => { handleToggleTask(t.id) }}
-									color="warning"
-									icon={<CheckCircleOutlineIcon />}
-									checkedIcon={<CheckCircleOutlineIcon />}
-								/>}
-							label={t.todo}
-
-						/>
-					</ListItem>)}
+				{tasks.map(t => <TaskItem task={t} handleToggleTask={handleToggleTask} />)}
 			</List>
 		</section>
 	)

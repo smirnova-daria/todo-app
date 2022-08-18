@@ -2,7 +2,7 @@ import { AnyAction, createSlice, PayloadAction, ThunkAction } from "@reduxjs/too
 import { todosApi } from "../api";
 import { AppStateType } from "./store";
 
-interface TodosState {
+export interface TodosState {
 	todos: Array<TodoType>
 	filter: FilterType
 }
@@ -63,7 +63,7 @@ export const clearCompletedTodos = (): ThunkAction<void, AppStateType, unknown, 
 	todosApi.setTodos(getState().todos.todos)
 }
 
-export const { filterChanged } = todosSlice.actions
+export const { todoAdded, todoToggled, completedTodosCleared, filterChanged, todosSet } = todosSlice.actions
 
 export const selectAllTodos = (state: AppStateType) => state.todos.todos
 export const selectCompletedTodos = (state: AppStateType) => state.todos.todos.filter(todo => todo.completed)
